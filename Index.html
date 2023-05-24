@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>VSB TEMARA</title>
+	
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Leaflet.PolylineMeasure.css" />
+    <link rel="stylesheet" href="leaflet-search.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="Leaflet.PolylineMeasure.js"></script>
+    
+    <script src="js/leaflet-timeline-slider.js"></script>
+    <link href="css/leaflet-sidebar.css" rel="stylesheet">
+   
+
+        <link href="css/leaflet-sidebar.css" rel="stylesheet">
+        <link href="css/leaflet-sidebar.min.css" rel="stylesheet">
+        <script src="js/leaflet-sidebar.js"></script>
+        <script src="js/leaflet-sidebar.min.js"></script>
+        <link rel="stylesheet" href="css/L.Control.Basemaps.css" />
+
+        <script src="https://kit.fontawesome.com/d29293fced.js" crossorigin="anonymous"></script>
+    
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.js" integrity="sha512-Lii3WMtgA0C0qmmkdCpsG0Gjr6M0ajRyQRQSbTF6BsrVh/nhZdHpVZ76iMIPvQwz1eoXC3DmAg9K51qT5/dEVg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 400px;
+			width: 600px;
+			max-width: 100%;
+			max-height: 100%;
+		}
+        
+	</style>
+
+  <style>
+    .info {
+                padding: 8px 10px;
+                font: 14px/20px Arial, Helvetica, sans-serif;
+                background: white;
+                background: rgba(255,255,255,0.8);
+                box-shadow: 0 0 15px rgba(0,0,0,0.2);
+                border-radius: 5px;
+            }
+            .info h4 {
+                margin: 0 0 5px;
+                color: #777;
+            }
+    input[type=range] {
+                    -webkit-appearance: none;
+                    margin: 20px 0;
+                    width: 100%;
+                    }
+                    input[type=range]:focus {
+                    outline: none;
+                    }
+                    input[type=range]::-webkit-slider-runnable-track {
+                    width: 100%;
+                    height: 4px;
+                    cursor: pointer;
+                    background: #49be29;
+                    border-radius: 25px;
+                    }
+                    input[type=range]::-webkit-slider-thumb {
+                    height: 20px;
+                    width: 20px;
+                    border-radius: 50%;
+                    background: rgb(123, 13, 13);
+                    box-shadow: 0 0 4px 0 rgba(0,0,0, 1);
+                    cursor: pointer;
+                    -webkit-appearance: none;
+                    margin-top: -8px;
+                    }
+                    input[type=range]:focus::-webkit-slider-runnable-track {
+                    background: #49be29;
+                    }
+                    .range-wrap{
+                    width: 500px;
+                    position: relative;
+                    }
+                    .range-value{
+                    position: absolute;
+                    top: -50%;
+                    }
+                    .range-value span{
+                    width: 60px;
+                    height: 24px;
+                    line-height: 24px;
+                    text-align: center;
+                    background: #49be29;
+                    color: #fff;
+                    font-size: 12px;
+                    display: block;
+                    position: absolute;
+                    left: 50%;
+                    transform: translate(-50%, 0);
+                    border-radius: 6px;
+                    }
+                    .range-value span:before{
+                    content: "";
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    border-top: 10px solid #49be29;
+                    border-left: 5px solid transparent;
+                    border-right: 5px solid transparent;
+                    top: 100%;
+                    left: 50%;
+                    margin-left: -5px;
+                    margin-top: -1px;
+                    }
+                </style>
+
+
+	<style>#map { width: 100%; height: 87vh; }
+.info { padding: 6px 10px; font: 14px/18px Arial, Helvetica, sans-serif ; background: rgb(255, 255, 255); background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 20px; } .info h4 { margin: 0 0 5px; color: #777; }
+.legend { text-align: right; line-height: 18px; color: #464545; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }</style>
+<link rel="stylesheet" href="css/leaflet.groupedlayercontrol.css" />
+</head>
+<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/w3.css">
+    <body>
+    
+
+    <div class="w3-container w3-teal">
+      </b><br> <center> <a href="https://sigmatop.ma/" class="logo">
+        <img src="SIGMATOP-LOGO.png"style='width:150px;height: 50px; margin-top :-20px' alt="">
+    </a> </center>
+    </div>
+    <div class="w3-container w3-green">
+        <p><center>VSB TEMARA</p></center>
+      </div>
+    
+   
+</div>
+<!--div id="basemapsDijit" style="position:relative; float:right;"> </div-->
+</div>
+
+<div id='map'></div>
+
+<script type="text/javascript" src="jamaika.geojson"></script>
+
+<script type="text/javascript" src="Tariq.geojson"></script>
+<script type="text/javascript" src="Skhirate.geojson"></script>
+<script src="js/L.Control.Basemaps.js"></script>
+<script type="text/javascript" src="exampledata.js"></script>
+<script src="js/leaflet.groupedlayercontrol.js"></script>
+<script src="leaflet-search.js"></script>
+<script >	
+
+const map = L.map('map', {
+		center: [33.930531, -6.907197],
+		zoom: 17,
+	});
+
+ var basemaps = [L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+                    maxZoom: 21,
+                    subdomains:['mt0','mt1','mt2','mt3'],
+                    attribution: ' <a href="https://www.google.com/intl/fr/earth/">Google Satellite</a>'})
+                  ,
+                  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+                    maxZoom: 19,
+                    attribution: ' <a href="https://www.esri.com/en-us/home">Esri</a>'
+                  }),
+                  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: ' <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                  }),
+                  
+              ];
+      
+              map.addControl(L.control.basemaps({
+                  basemaps: basemaps,
+                  tileX: 0,
+                  tileY: 0,
+                  tileZ: 1
+              }));
+                
+
+    
+    	// control that shows state info on hover
+	const info = L.control();
+
+// get color 
+
+
+ 
+
+
+                info.onAdd = function (map) {
+                    this._div = L.DomUtil.create('div', 'info');
+                    this.update();
+                    return this._div;
+                  };
+                
+                         
+                  info.update = function (props) {
+                    const contents = props ? `<b> Douar &emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&nbsp;&nbsp;&nbsp:</b><b> ${props.Douar}</b><br />
+                    <b> Nom de Baraque &emsp;&nbsp:</b><b> ${props.NAME}</b><br />
+                    <b> Chef de ménage &emsp;&nbsp;&nbsp:</b><b> ${props.ChefMen}</b><br />
+                    <b>  n°CIN &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp: </b><b> ${props.NCIN}</b><br />
+                    <b>  Epoux (e) &emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp: </b><b> ${props.Epoux}</b><br />
+                    <b>  Membres de famille : </b><b> ${props.Mènage}</b><br />
+                    <b>  Adresse &emsp;&emsp;&emsp;&emsp;&emsp;&nbsp: </b><b> ${props.Adress}</b><br />
+                    <b>  Remarques &emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp: </b><b> ${props.Remarques}</b><br />
+                    <b>  Surface &emsp;&emsp;&emsp;&emsp;&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: </b><b> ${props.Surface} m² </b><br />
+                    <b>  Périmètre &emsp;&emsp;&emsp;&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: </b><b> ${props.Périmètre} m </b><br />
+                  </b></sup>` : 'Appuyer sur un polygone';
+                    this._div.innerHTML = `<h4>DATABASE - 
+                      VSB Temara</h4>${contents}`;
+                };
+            
+                info.addTo(map);
+
+                 
+                  L.control.scale ({maxWidth:240, metric:true, imperial:false, position: 'bottomleft'}).addTo (map);
+                  let polylineMeasure = L.control.polylineMeasure ({position:'topleft', unit:'kilometres', showBearings:true, clearMeasurementsOnStop: false, showClearControl: true, showUnitControl: true})
+                  polylineMeasure.addTo (map);
+      
+                  function debugevent(e) { console.debug(e.type, e, polylineMeasure._currentLine) }
+      
+                  map.on('polylinemeasure:toggle', debugevent);
+                  map.on('polylinemeasure:start', debugevent);
+                  map.on('polylinemeasure:resume', debugevent);
+                  map.on('polylinemeasure:finish', debugevent);
+                  map.on('polylinemeasure:change', debugevent);
+                  map.on('polylinemeasure:clear', debugevent);
+                  map.on('polylinemeasure:add', debugevent);
+                  map.on('polylinemeasure:insert', debugevent);
+                  map.on('polylinemeasure:move', debugevent);
+                  map.on('polylinemeasure:remove', debugevent);
+
+       
+                  
+
+
+                  var searchControl = new L.Control.Search({
+                    layer: geojson1,
+                    propertyName: 'NCIN',
+                    marker: false,
+                    moveToLocation: function(latlng, title, map) {
+                      //map.fitBounds( latlng.layer.getBounds() );
+                      var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+                        map.setView(latlng, zoom); // access the zoom
+                    }
+                  });
+                
+                  searchControl.on('search:locationfound', function(e) {
+                    
+                    //console.log('search:locationfound', );
+                
+                    //map.removeLayer(this._markerSearch)
+                
+                    e.layer.setStyle({fillColor: '#3f0', color: '#0f0', fillOpacity: 0.9});
+                    if(e.layer._popup)
+                      e.layer.openPopup();
+                
+                  }).on('search:collapsed', function(e) {
+                
+                    geojson1.eachLayer(function(layer) {	//restore feature color
+                      geojson1.resetStyle(layer);
+                    });	
+                  });
+                  
+                  map.addControl( searchControl );  //inizialize search control
+
+
+      //            var sidebar = L.control.sidebar({
+        //            autopan: true,      
+          //          closeButton: true,   
+            //        container: 'sidebar', 
+              //      position: 'left'
+                //}).addTo(map);
+//
+  //              sidebar.addPanel({
+    //                    id:   'info',
+      //                  tab:  '<i class="fa-solid fa-circle-info"></i>',
+        //                title: '',
+          //              pane: 
+            //            '<p style="margin-top: 20px; font-size: 15px; font-weight: bold">     '+
+              //              '<p style="font-size: 16px;"> </p>'+
+                //            '<p style="font-size: 14px;">  <a href=""></a></p>'+
+                  //          
+
+
+//                            '<hr style="margin-top: 50px; width: 375px;">'+
+  //                          '<p style="font-size: 14px;">   </p>'+
+    //                        '<div class="range-wrap" style="width: 375px;">'+
+      //                          
+        //                    '</div>'
+          //              });
+            //    sidebar.open('info').addTo(map);
+
+</script>
+<script>
+
+   // const
+    //    range = document.getElementById('range'),
+    //    rangeV = document.getElementById('rangeV'),
+    //    setValue = ()=>{
+   // const
+    //    newValue = Date( (range.value - range.min) * 100 / (range.max - range.min) ),
+   //     newPosition = newValue + 1;
+   //     rangeV.innerHTML = `<span>${range.value}</span>`;
+  //      rangeV.style.left = `calc(${newValue}% + (${newPosition}px))`;
+ //   };
+        
+  //  document.addEventListener("DOMContentLoaded", setValue);
+  //  range.addEventListener('input', setValue);
+  var groupedOverlays = {
+    "Témara": {
+      "Douar jamaika": ExampleData.LayerGroups.cities,
+ 
+ 
+    }
+  };
+  // Use the custom grouped layer control, not "L.control.layers"
+  L.control.groupedLayers(ExampleData.Basemaps, groupedOverlays).addTo(map);
+
+</script>
+
+
+<script type="text/javascript" src="JS/labs-common.js"></script>
+
+<script src="js/slick-slider.js"></script>
+
+</body>
+</html>
